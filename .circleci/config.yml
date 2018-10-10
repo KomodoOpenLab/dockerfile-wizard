@@ -6,7 +6,7 @@ image_config: &image_config
 
   IMAGE_NAME: nrf52
 
-  IMAGE_TAG: 1.0
+  IMAGE_TAG: base
 
   # NOTE: if you're modifying this config.yml file manually
   # rather than using the included setup script,
@@ -41,8 +41,6 @@ jobs:
     steps:
       - checkout
 
-      - run: bash scripts/generate.sh > Dockerfile
-
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
       - run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
@@ -54,7 +52,7 @@ jobs:
 
   test_image:
     docker:
-      - image: $DOCKER_USERNAME/nrf52:nrf52
+      - image: $DOCKER_USERNAME/nrf52:base
         environment:
           <<: *image_config
 
